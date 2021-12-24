@@ -1,0 +1,168 @@
+<!doctype html>
+<html dir="ltr" lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monthly Sales and Tax Report (Zen-Cart&reg; v1.5.7)</title>
+<style>
+<!--
+a, a:active, a:visited {
+  color: #006666;
+  text-decoration: none
+}
+a:hover {
+    color:#00CC99;
+    text-decoration: underline;
+}
+BODY, P, H1, H2, H3, H4, H5, H6, LI, TD, DD, DT, table, img {
+  font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif;
+  font-size: 12px;
+  color: black;
+  padding: 0px;
+  margin: 20px;
+}
+H1, H2, H3, H4 {
+  font-weight: bold;
+}
+h1 {
+  font-size: 20px;
+}
+h2 {
+  font-size: 16px;
+  border-top: 1px dashed #000066;
+  padding-top: 5px;
+  color: #000066;
+}
+img {
+    max-width: 95vw;
+    height: auto;
+}
+table { 
+  border-collapse: collapse; 
+}
+th, td {
+  border: 1px solid #000066;
+  padding: 5px;
+  text-align: left;
+}
+ol li, ul li {
+  margin: 0 0 5px;
+}
+ol li ul li, ul li ul li {
+  margin: 0 auto 5px;
+}
+tr td:first-child {
+  font-weight: bold;
+  color: #000066;
+}
+.smaller {
+  font-size: 10px;
+}
+.o {
+  background-color: #f4f4f4;
+}
+-->
+</style>
+</head>
+
+<body>
+<h1>Monthly Sales and Tax report for Zen Cart&reg; v1.5.7+</h1>
+<h3>Version 2.0.0</h3>
+<p>Copyright (c) 2012-2021, <a href="https://vinosdefrutastropicales.com" target="_blank" rel="noopener noreferrer">Vinos de Frutas Tropicales</a> (lat9)</p>
+<p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread" target="_blank">https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread</a>.  This software is provided for your use under the GNU General Public License.</p>
+<p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=734" target="_blank" rel="noopener noreferrer">https://www.zen-cart.com/downloads.php?do=file&id=734</a>.</p>
+<p><b>Note:</b> This report requires <em>Zen Cart v1.5.7 or later</em> for its proper operation!</p>
+
+<h2>What it does</h2>
+<p>This drop-in Zen Cart admin report displays a summary of monthly or daily totals:</p>
+<ul>
+    <li>Gross income (order totals)</li>
+    <li>Subtotals of all orders in the selected period</li>
+    <li>Nontaxed sales subtotals</li>
+    <li>Taxed sales subtotals</li>
+    <li>Tax collected</li>
+    <li>Shipping/handling charges</li>
+    <li>Low order fees (if enabled)</li>
+    <li>Gift vouchers (if enabled)</li>
+    <li>Coupons (if enabled)</li>
+    <li>All &quot;other&quot; totals (including the optional elements above, if disabled)</li>
+</ul>
+<p>The report's data comes from the <code>orders</code> and <code>orders_total</code> tables and is summarized based on an order's <code>date_purchased</code>.  Features:</p>
+<ul>
+    <li>An admin can choose a specific <em>Orders Status</em> for the report and can &quot;drill down&quot; on any month to view a daily summary report for the selected month.</li>
+    <li>The report is initially shown with more recent months first, but can be shown with most recent months last by using the &quot;Invert&quot; checkbox.</li>
+    <li>A modal popup displays the individual orders and their tax values for a selected timeframe.</li>
+    <li>Columns that summarize both taxed and untaxed sales.</li>
+    <li>A modal popup that displays help-text for the report.</li>
+    <li>A one-click <em>Print</em> button.</li>
+    <li>A one-click <em>Save CSV</em> button to save the current report as a <code>.csv</code> file on your computer.</li>
+</ul>
+
+<h2>Installation</h2>
+<p>There are no core-file overwrites in this plugin, but you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
+<p>Copy the following files to your cart's installation, after renaming the &quot;YOUR_ADMIN&quot; directory to match your custom admin's name:</p>
+<ol>
+    <li>/includes/classes/ajax/zcAjaxMonthlySales.php</li>
+    <li>/YOUR_ADMIN/stats_monthly_sales.php</li>
+    <li>/YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
+    <li>/YOUR_ADMIN/includes/functions/extra_functions/stats_monthly_sales.php</li>
+    <li>/YOUR_ADMIN/includes/javascript/stats_monthly_sales.js</li>
+    <li>/YOUR_ADMIN/includes/languages/english/stats_monthly_sales.php</li>
+    <li>/YOUR_ADMIN/includes/languages/english/extra_definitions/stats_monthly_sales.php</li>
+    <li>/YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_taxes.php</li>
+</ol>
+
+<h2>Uninstall</h2>
+<p>First, delete the files that were copied to your zen-cart installation's admin directories then use your admin's <em>Tools-&gt;Run SQL Patches</em> to run the file <b>stats_monthly_sales_uninstall.sql</b>.</p>
+
+<h2>Version History:</h2>
+<ul>
+    <li>v2.0.0, 2021-12-24 (lat9):<ul>
+        <li>CHANGE: Totally rewritten to make use of the zc157+ admin environment.</li>
+        <li>BUGFIX: Remove use of to-be-deprecated <code>strftime</code>.</li>
+        <li>BUGFIX: Modify SQL queries to support strict MySQL installations; correcting fields missing from <code>GROUP BY</code>.</li>
+        <li>BUGFIX: Correcting various PHP notices, deprecations and warnings.</li>
+        <li>CHANGE: Using Bootstrap modals for popup displays.</li>
+        <li>CHANGE: The minimum Zen Cart version now supported is v1.5.7.</li>
+    </ul></li>
+    <li>v1.5.3, 2014-10-14 (PRO-Webs.net):<ul>
+        <li>Fixed shipping $$ bug.</li>
+    </ul></li>
+    <li>v1.5.2, 2014-10-14 (PRO-Webs.net):<ul>
+        <li>Recovered YOY ability in monthly screens from the old module</li>
+        <li>Added ability to limit reports to one or more zones</li>
+        <li>Fixed CSV export</li>
+        <li>Added license to package</li>
+        <li>Tested Zen 1.5.1 & 1.5.3 & PHP 5.4.30</li>
+    </ul></li>
+    <li>v1.5.1, 2014-08-15 (swguy):<ul>
+        <li>Added 1.3.9 compatibility.</li>
+    </ul></li>
+    <li>v1.5.0, 2014-07-23 (lat9):<ul>
+        <li>Converted to use $db for SQL actions, as preventative measure for PHP 5.5 deprecation of mysql_* functions</li>
+        <li>Converted explicit &lt;input type="hidden" ...&gt; to zen_draw_hidden_field calls</li>
+        <li>Converted explicit &lt;form ...&gt; to zen_draw_form calls</li>
+        <li>Corrected PHP warning on CSV download (file name issue)</li>
+        <li>Converted use of $_SERVER variables to zen-cart functions</li>
+        <li>Moved all language phrases to the language file</li>
+        <li>Converted to use Zen Cart rounding function</li>
+        <li>Added formatting strings for title of popup tax details title</li>
+        <li>Added configuration switch to control whether or not S/H charges are added into the store's taxed/untaxed totals</li>
+        <li>PHP 5.4-ready (remove/change ereg* calls)</li>
+        <li>Use DEFAULT_CURRENCY decimal places for number_format</li>
+        <li>Added separate columns for Gift Vouchers and Coupons; non-core Order Totals summed in &quot;Other&quot; column</li>
+    </ul></li>
+    <li>v1.4, 2011-11-24, Initial release (SkipWater).</li>
+</ul>
+<h3>Author History</h3>
+<p>This report's been around for <em>a while</em>.  Some of the previous changes were authored by:</p>
+<ul>
+    <li>Original OSC contributed by Fritz Clapp <fritz@sonnybarger.com></li>
+    <li>Ported to ZenCart 1.3.8a SkipWater <skip@ccssinc.net></li>
+    <li>Ported to ZenCart 1.50.RC1/2 SkipWater <skip@ccssinc.net></li>
+    <li>Updated for PHP 5.4+ and Zen Cart v1.5.3, lat9</li>
+    <li>Backported to Zen Cart 1.3.9 by swguy.</li>
+</ul>
+</body>
+</html>

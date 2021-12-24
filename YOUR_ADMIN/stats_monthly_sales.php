@@ -109,7 +109,12 @@ function sms_debug($string) {
 
 require(DIR_WS_CLASSES . 'currencies.php');
 $currencies = new currencies();
-$decimal_places = $currencies->get_decimal_places(DEFAULT_CURRENCY);
+
+if (method_exists($currencies, 'get_decimal_places')) { 
+   $decimal_places = $currencies->get_decimal_places(DEFAULT_CURRENCY);
+} else { 
+   $decimal_places = $currencies->decimal_places; 
+}
 
 sms_debug('ON ENTRY: using decimal places for ' . DEFAULT_CURRENCY . " ($decimal_places)" . ', $_GET (' . zen_get_all_get_params() . ')' . ((zen_not_null($_POST)) ? (', $_POST(' . print_r($_POST, true)) : ''));
 

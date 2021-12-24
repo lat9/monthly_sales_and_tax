@@ -4,7 +4,9 @@ Monthly Sales and Tax Summary mod for Zen Cart
 
 Version / Date
 ===============
-v 1.4 2011/11/24
+v 1.5.1 2014-08-15 swguy
+- Added 1.3.9 compatibility.
+
 v 1.5.0 2014-07-23 lat9
   - Converted to use $db for SQL actions, as preventative measure for PHP 5.5 deprecation of mysql_* functions
   - Converted explicit <input type="hidden" ...> to zen_draw_hidden_field calls
@@ -19,9 +21,11 @@ v 1.5.0 2014-07-23 lat9
   - Use DEFAULT_CURRENCY decimal places for number_format
   - Added separate columns for Gift Vouchers and Coupons; non-core Order Totals summed in "Other" column
 
+v 1.4 2011/11/24
+
 Zen Cart versions supported
 ============================
-Tested on ZenCart 1.50.RC1/2, v1.5.2, v1.5.2, v1.5.3
+Tested on ZenCart 1.3.9, 1.50.RC1/2, v1.5.2, v1.5.2, v1.5.3
 
 Author(s)
 =========
@@ -29,6 +33,7 @@ Orginal OSC contributed by Fritz Clapp <fritz@sonnybarger.com>
 Ported to ZenCart 1.3.8a SkipWater <skip@ccssinc.net>
 Ported to ZenCart 1.50.RC1/2 SkipWater <skip@ccssinc.net>
 Updated for PHP 5.4+ and Zen Cart v1.5.3, lat9 <lat9@vinosdefrutastropicales.com>
+Backported to Zen Cart 1.3.9 by swguy. 
 
 Support Thread
 ==============

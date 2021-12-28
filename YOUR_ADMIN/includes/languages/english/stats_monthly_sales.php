@@ -1,6 +1,6 @@
 <?php
 /*
- $Id: stats_monthly_sales.php, v2.0.0, 2021-12-24 (lat9)  $
+ $Id: stats_monthly_sales.php, v2.0.1, 2021-12-28 (lat9)  $
 
   By SkipWater <skip@ccssinc.net> 11.24.2011
   With modifications by lat9: Copyright (c) 2013-2021 Vinos de Frutas Tropicales
@@ -18,7 +18,7 @@
 define('STATS_MONTHLY_SALES_DEBUG', 'off');
 
 /////////////
-define('SMS_VERSION', 'v2.0.0');
+define('SMS_VERSION', 'v2.0.1');
 
 define('HEADING_TITLE', 'Monthly Sales/Tax Summary');
 define('HEADING_SUBTITLE', 'Viewing Sales for %s');

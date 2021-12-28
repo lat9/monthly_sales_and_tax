@@ -1,4 +1,4 @@
-# Monthly Sales and Tax Report, v2.0.0
+# Monthly Sales and Tax Report, v2.0.1
 
 This drop-in Zen Cart report displays a summary of monthly or daily sales for your store.
 

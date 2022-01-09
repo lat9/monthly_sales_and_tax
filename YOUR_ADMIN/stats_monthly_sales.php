@@ -1,6 +1,6 @@
 <?php
 /*
-  $Id: stats_monthly_sales.php, v2.0.0 2021-12-13  $
+  $Id: stats_monthly_sales.php, v2.0.1 2022-01-09  $
 
   Copyright 2013-2021 Vinos de Frutas Tropicales (lat9)
   Copyright 2003-2005 Zen Cart Development Team
@@ -70,6 +70,19 @@ A popup help display window on how to use.
 
 */
 require 'includes/application_top.php';
+
+// -----
+// If running on a PHP version prior to 7.3.0, the array_key_first function isn't available.
+// Register its use in this case.
+//
+if (!function_exists('array_key_first')) {
+    function array_key_first(array $arr) {
+        foreach($arr as $key => $unused) {
+            return $key;
+        }
+        return NULL;
+    }
+}
 
 // -----
 // Set the boolean flag indicating whether to 'invert' the order of the displayed totals.
@@ -154,7 +167,7 @@ if (isset($_GET['csv']) && $_GET['csv'] === 'yes' && count($sales) !== 0) {
         // -----
         // Output header line, containing keys in the current sales' data.
         //
-        fputcsv($fh, array_keys($sales[0]));
+        fputcsv($fh, array_keys($sales[array_key_first($sales)]));
 
         // -----
         // Output each sale as a line in the .csv.
@@ -344,14 +357,14 @@ if (count($sales) === 0) {
         'other' => 0,
     ];
     $totals = $default_totals;
-    foreach ($sales as $sale) {
+    foreach ($sales as $key => $sale) {
         // -----
         // Set the current report year (current 'row') on initial entry.  Whenever the report's
         // year changes, output a total-row for that year and reset the associated totals.
         //
         if (!isset($totals['year'])) {
             $totals['year'] = $sale['year'];
-            $totals['monthname'] = $sale['monthname'];
+            $totals['monthname'] = $sms->getMonthName($sale['month']);
         } elseif ($totals['year'] !== $sale['year']) {
 ?>
             <tr class="dataTableHeadingRow fw-bold">
@@ -399,42 +412,54 @@ if (count($sales) === 0) {
             $month_output = '&nbsp;';
             $data_day = ' data-day="' . $sale['day'] . '"';
         } else {
-            $month_output = '<a href="' . zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['month', 'year']) . 'month=' . $sale['month'] . '&year=' . $sale['year']) . '"  title="' . TEXT_BUTTON_REPORT_GET_DETAIL . '">' . $sale['monthname'] . '</a>';
+            $month_output = '<a href="' . zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['month', 'year']) . 'month=' . $sale['month'] . '&year=' . $sale['year']) . '"  title="' . TEXT_BUTTON_REPORT_GET_DETAIL . '">' . $sms->getMonthName($sale['month']) . '</a>';
             $data_day = '';
         }
 ?>
             <tr class="dataTableRow">
                 <td class="dataTableContent text-center"><?php echo $month_output; ?></td>
                 <td class="dataTableContent text-center"><?php echo ($is_monthly_report === true) ? $sale['year'] : $sale['day']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['gross_sales']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['products_total']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['products_untaxed']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['products_taxed']); ?></td>
-                <td class="dataTableContent text-right"><a href="#" class="sms-tax" data-year="<?php echo $sale['year']; ?>" data-month="<?php echo $sale['month']; ?>" <?php echo $data_day; ?>><?php echo $sms->formatValue($sale['tax']); ?></a></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['shipping']); ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['gross_sales']; ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['products_total']; ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['products_untaxed']; ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['products_taxed']; ?></td>
+                <td class="dataTableContent text-right"><a href="#" class="sms-tax" data-year="<?php echo $sale['year']; ?>" data-month="<?php echo $sale['month']; ?>" <?php echo $data_day; ?>><?php echo $sale['tax']; ?></a></td>
+                <td class="dataTableContent text-right"><?php echo $sale['shipping']; ?></td>
 <?php
         if ($sms->usingLowOrder()) {
+            if (!isset($sale['loworder'])) {
+                $sale['loworder'] = 0.0;
+            }
             $totals['loworder'] += $sale['loworder'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['loworder']); ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['loworder']; ?></td>
 <?php 
         }
         if ($sms->usingGiftVouchers()) {
+            if (!isset($sale['gv'])) {
+                $sale['gv'] = 0.0;
+            }
             $totals['gv'] += $sale['gv'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['gv']); ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['gv']; ?></td>
 <?php 
         }
         if ($sms->usingCoupons()) {
+            if (!isset($sale['coupon'])) {
+                $sale['coupon'] = 0.0;
+            }
             $totals['coupon'] += $sale['coupon'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['coupon']); ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['coupon']; ?></td>
 <?php 
         }
         if ($sms->usingAdditionalTotals()) {
+            if (!isset($sale['other'])) {
+                $sale['other'] = 0.0;
+            }
             $totals['other'] += $sale['other'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($sale['other']); ?></td>
+                <td class="dataTableContent text-right"><?php echo $sale['other']; ?></td>
 <?php
         }
 ?>

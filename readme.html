@@ -68,7 +68,7 @@ tr td:first-child {
 
 <body>
 <h1>Monthly Sales and Tax report for Zen Cart&reg; v1.5.7+</h1>
-<h3>Version 2.0.2</h3>
+<h3>Version 2.0.3</h3>
 <p>Copyright (c) 2012-2022, <a href="https://vinosdefrutastropicales.com" target="_blank" rel="noopener noreferrer">Vinos de Frutas Tropicales</a> (lat9)</p>
 <p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread" target="_blank">https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread</a>.  This software is provided for your use under the GNU General Public License.</p>
 <p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=734" target="_blank" rel="noopener noreferrer">https://www.zen-cart.com/downloads.php?do=file&id=734</a>.</p>
@@ -118,6 +118,13 @@ tr td:first-child {
 
 <h2>Version History:</h2>
 <ul>
+    <li>v2.0.3, 2022-04-09 (lat9):<ul>
+        <li>BUGFIX: Correct strict MySQL 5.7 fatal error.</li>
+        <li>The following files were changed:<ol>
+            <li>/YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
+            <li>/YOUR_ADMIN/includes/languages/english/stats_monthly_sales.php</li>
+        </ol></li>
+    </li>
    <li>v2.0.2, 2022-01-09 (lat9):<ul>
         <li>BUGFIX: Add missing /YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_tax.php</li>
         <li>BUGFIX: Modify data-gathering to reduce the amount of time it takes to generate the report.</li>

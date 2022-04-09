@@ -288,7 +288,10 @@ class MonthlySalesAndTax extends base
         if ($this->reportModeMonthly === false) {
             $conditions .= ", DATE_FORMAT(o.date_purchased, '%e')";
         }
-        $conditions .= ' ORDER BY o.date_purchased ' . $this->sortDir;
+        $conditions .= ' ORDER BY `year` ' . $this->sortDir . ', `month` ' . $this->sortDir;
+        if ($this->reportModeMonthly === false) {
+            $conditions .= ', `day` ' . $this->sortDir;
+        }
 
         return $conditions;
     }

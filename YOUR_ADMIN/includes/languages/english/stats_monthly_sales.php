@@ -18,7 +18,7 @@
 define('STATS_MONTHLY_SALES_DEBUG', 'off');
 
 /////////////
-define('SMS_VERSION', 'v2.0.2');
+define('SMS_VERSION', 'v2.0.3');
 
 define('HEADING_TITLE', 'Monthly Sales/Tax Summary');
 define('HEADING_SUBTITLE', 'Viewing Sales for %s');

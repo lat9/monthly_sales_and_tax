@@ -120,14 +120,17 @@ tr td:first-child {
 <ul>
     <li>v2.0.3, 2022-04-09 (lat9):<ul>
         <li>BUGFIX: Correct strict MySQL 5.7 fatal error.</li>
+        <li>BUGFIX: Correct PHP notices issued when a total element is missing for a timeframe.</li>
         <li>The following files were changed:<ol>
+            <li>/YOUR_ADMIN/stats_monthly_sales.php</li>
             <li>/YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
             <li>/YOUR_ADMIN/includes/languages/english/stats_monthly_sales.php</li>
         </ol></li>
     </li>
-   <li>v2.0.2, 2022-01-09 (lat9):<ul>
+    <li>v2.0.2, 2022-01-09 (lat9):<ul>
         <li>BUGFIX: Add missing /YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_tax.php</li>
         <li>BUGFIX: Modify data-gathering to reduce the amount of time it takes to generate the report.</li>
+    </ul>
     <li>v2.0.1, 2021-12-28 (lat9):<ul>
         <li>BUGFIX: Add missing /YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
         <li>BUGFIX: Add missing /YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_tax.php</li>

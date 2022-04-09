@@ -415,6 +415,15 @@ if (count($sales) === 0) {
             $month_output = '<a href="' . zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['month', 'year']) . 'month=' . $sale['month'] . '&year=' . $sale['year']) . '"  title="' . TEXT_BUTTON_REPORT_GET_DETAIL . '">' . $sms->getMonthName($sale['month']) . '</a>';
             $data_day = '';
         }
+        
+        // -----
+        // Account for totals that might not be present for the given time period.
+        //
+        foreach ($default_totals as $key => $notused) {
+            if (!isset($sale[$key])) {
+                $sale[$key] = 0;
+            }
+        }
 ?>
             <tr class="dataTableRow">
                 <td class="dataTableContent text-center"><?php echo $month_output; ?></td>
@@ -423,40 +432,28 @@ if (count($sales) === 0) {
                 <td class="dataTableContent text-right"><?php echo $sale['products_total']; ?></td>
                 <td class="dataTableContent text-right"><?php echo $sale['products_untaxed']; ?></td>
                 <td class="dataTableContent text-right"><?php echo $sale['products_taxed']; ?></td>
-                <td class="dataTableContent text-right"><a href="#" class="sms-tax" data-year="<?php echo $sale['year']; ?>" data-month="<?php echo $sale['month']; ?>" <?php echo $data_day; ?>><?php echo $sale['tax']; ?></a></td>
+                <td class="dataTableContent text-right"><a href="#" class="sms-tax" data-year="<?php echo $sale['year']; ?>" data-month="<?php echo $sale['month']; ?>" <?php echo $data_day; ?>><?php echo ($sale['tax'] === 0) ? '' : $sale['tax']; ?></a></td>
                 <td class="dataTableContent text-right"><?php echo $sale['shipping']; ?></td>
 <?php
         if ($sms->usingLowOrder()) {
-            if (!isset($sale['loworder'])) {
-                $sale['loworder'] = 0.0;
-            }
             $totals['loworder'] += $sale['loworder'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['loworder']; ?></td>
 <?php 
         }
         if ($sms->usingGiftVouchers()) {
-            if (!isset($sale['gv'])) {
-                $sale['gv'] = 0.0;
-            }
             $totals['gv'] += $sale['gv'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['gv']; ?></td>
 <?php 
         }
         if ($sms->usingCoupons()) {
-            if (!isset($sale['coupon'])) {
-                $sale['coupon'] = 0.0;
-            }
             $totals['coupon'] += $sale['coupon'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['coupon']; ?></td>
 <?php 
         }
         if ($sms->usingAdditionalTotals()) {
-            if (!isset($sale['other'])) {
-                $sale['other'] = 0.0;
-            }
             $totals['other'] += $sale['other'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['other']; ?></td>

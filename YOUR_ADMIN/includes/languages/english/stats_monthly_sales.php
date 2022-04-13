@@ -1,6 +1,6 @@
 <?php
 /*
- $Id: stats_monthly_sales.php, v2.0.2, 2022-01-09 (lat9)  $
+ $Id: stats_monthly_sales.php, v2.0.3, 2022-04-13 (lat9)  $
 
   By SkipWater <skip@ccssinc.net> 11.24.2011
   With modifications by lat9: Copyright (c) 2013-2021 Vinos de Frutas Tropicales

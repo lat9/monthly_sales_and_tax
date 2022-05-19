@@ -266,9 +266,9 @@ class MonthlySalesAndTax extends base
     }
     protected function getQueryTimeframeFields()
     {
-        $query_fields = "DATE_FORMAT(o.date_purchased, '%Y') AS `year`, DATE_FORMAT(o.date_purchased, '%c') AS `month`";
+        $query_fields = "DATE_FORMAT(o.date_purchased, '%Y') AS `year`, DATE_FORMAT(o.date_purchased, '%m') AS `month`";
         if ($this->reportModeMonthly === false) {
-            $query_fields .= ", DATE_FORMAT(o.date_purchased, '%e') AS `day`";
+            $query_fields .= ", DATE_FORMAT(o.date_purchased, '%d') AS `day`";
         }
         return $query_fields;
     }
@@ -284,9 +284,9 @@ class MonthlySalesAndTax extends base
             $conditions .= ' ' . $connector . " o.date_purchased BETWEEN '" . $year_month . "01 00:00:00' AND '" . $year_month . "31 23:59:59'";
         }
         $conditions .= ' ';
-        $conditions .= "GROUP BY DATE_FORMAT(o.date_purchased, '%Y'), DATE_FORMAT(o.date_purchased, '%c')";
+        $conditions .= "GROUP BY DATE_FORMAT(o.date_purchased, '%Y'), DATE_FORMAT(o.date_purchased, '%m')";
         if ($this->reportModeMonthly === false) {
-            $conditions .= ", DATE_FORMAT(o.date_purchased, '%e')";
+            $conditions .= ", DATE_FORMAT(o.date_purchased, '%d')";
         }
         $conditions .= ' ORDER BY `year` ' . $this->sortDir . ', `month` ' . $this->sortDir;
         if ($this->reportModeMonthly === false) {

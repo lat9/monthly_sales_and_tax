@@ -68,11 +68,11 @@ tr td:first-child {
 
 <body>
 <h1>Monthly Sales and Tax report for Zen Cart&reg; v1.5.7+</h1>
-<h3>Version 2.0.4</h3>
+<h3>Version 2.1.0</h3>
 <p>Copyright (c) 2012-2022, <a href="https://vinosdefrutastropicales.com" target="_blank" rel="noopener noreferrer">Vinos de Frutas Tropicales</a> (lat9)</p>
 <p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread" target="_blank">https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread</a>.  This software is provided for your use under the GNU General Public License.</p>
 <p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=734" target="_blank" rel="noopener noreferrer">https://www.zen-cart.com/downloads.php?do=file&id=734</a>.</p>
-<p><b>Note:</b> This report requires <em>Zen Cart v1.5.7 or later</em> for its proper operation!</p>
+<p><b>Note:</b> This report requires <em>Zen Cart v1.5.7 or later</em> for its proper operation! It will require 1.5.8 for Plugin Manager.</p>
 
 <h2>What it does</h2>
 <p>This drop-in Zen Cart admin report displays a summary of monthly or daily totals:</p>
@@ -99,7 +99,7 @@ tr td:first-child {
     <li>A one-click <em>Save CSV</em> button to save the current report as a <code>.csv</code> file on your computer.</li>
 </ul>
 
-<h2>Installation</h2>
+<h2>Installation - Pre ZenCart 1.5.8</h2>
 <p>There are no core-file overwrites in this plugin, but you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
 <p>Copy the following files to your cart's installation, after renaming the &quot;YOUR_ADMIN&quot; directory to match your custom admin's name:</p>
 <ol>
@@ -112,19 +112,33 @@ tr td:first-child {
     <li>/YOUR_ADMIN/includes/languages/english/extra_definitions/stats_monthly_sales.php</li>
     <li>/YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_taxes.php</li>
 </ol>
-
-<h2>Uninstall</h2>
+<h2>Uninstall - Pre ZenCart 1.5.8</h2>
 <p>First, delete the files that were copied to your zen-cart installation's admin directories then use your admin's <em>Tools-&gt;Run SQL Patches</em> to run the file <b>stats_monthly_sales_uninstall.sql</b>.</p>
+<h2>Installation/Uninstallation - ZenCart 1.5.8+</h2>
+<p>This module is now an encapsulated module. </p>
+<ol>
+  <li>Extract the directory &quot;MonthlySalesTaxReport&quot; into your ZenCart's 'zc_plugins' directory. </li>
+  <li>Log in to your ZenCart Admin and visit Modules &gt; Plugin Manager.</li>
+  <li>Find the row &quot;Monthly Sales Tax Report&quot; and click &quot;Install&quot;</li>
+</ol>
+<p>To uninstall, visit the same page but click &quot;Uninstall&quot;.</p>
 
 <h2>Version History:</h2>
 <ul>
-    <li>v2.0.4, 2022-05-19 (lat9):<ul>
+    <li>v2.1.0, 2024-12-26 (retched)
+      <ul>
+        <li>This module was made into an encapsulated module. Since the module only affects the back end, it should still work in ZC 1.5.7, ZC 1.5.8, ZC 2.0.0, and ZC 2.1.0. For older ZC you should still be able to run the module as you normally would.</li>
+      </ul>
+    </li>
+    <li>v2.0.4, 2022-05-19 (lat9):
+    <ul>
         <li>BUGFIX: Correct month/day sorting.</li>
         <li>The following files were changed:<ol>
             <li>/YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
             <li>/YOUR_ADMIN/includes/languages/english/stats_monthly_sales.php</li>
         </ol></li>
-    </ul></li>
+    </ul>
+    </li>
     <li>v2.0.3, 2022-04-13 (lat9):<ul>
         <li>BUGFIX: Correct strict MySQL 5.7 fatal error.</li>
         <li>BUGFIX: Correct PHP notices issued when a total element is missing for a timeframe.</li>
@@ -183,9 +197,9 @@ tr td:first-child {
 <h3>Author History</h3>
 <p>This report's been around for <em>a while</em>.  Some of the previous changes were authored by:</p>
 <ul>
-    <li>Original OSC contributed by Fritz Clapp <fritz@sonnybarger.com></li>
-    <li>Ported to ZenCart 1.3.8a SkipWater <skip@ccssinc.net></li>
-    <li>Ported to ZenCart 1.50.RC1/2 SkipWater <skip@ccssinc.net></li>
+    <li>Original OSC contributed by Fritz Clapp &lt;fritz@sonnybarger.com&gt;</li>
+    <li>Ported to ZenCart 1.3.8a SkipWater &lt;skip@ccssinc.net&gt;</li>
+    <li>Ported to ZenCart 1.50.RC1/2 SkipWater &lt;skip@ccssinc.net&gt;</li>
     <li>Updated for PHP 5.4+ and Zen Cart v1.5.3, lat9</li>
     <li>Backported to Zen Cart 1.3.9 by swguy.</li>
 </ul>

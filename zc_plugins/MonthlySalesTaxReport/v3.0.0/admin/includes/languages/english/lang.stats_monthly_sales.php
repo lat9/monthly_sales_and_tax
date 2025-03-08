@@ -39,7 +39,7 @@
 $define = [
   'STATS_MONTHLY_SALES_DEBUG' => 'off',
 
-  'SMS_VERSION' => 'v2.1.0',
+  'SMS_VERSION' => 'v3.0.0',
 
   'HEADING_TITLE' => 'Monthly Sales/Tax Summary',
   'HEADING_SUBTITLE' => 'Viewing Sales for %s',
@@ -87,17 +87,17 @@ $define = [
   'HELP_CONTENT_HEADER' => 'Using the Monthly Sales Report',
 ];
 
-$table_heading_income     = $define['TABLE_HEADING_INCOME'];
-$table_heading_sales      = $define['TABLE_HEADING_SALES'];
-$table_heading_nontaxed   = $define['TABLE_HEADING_NONTAXED'];
-$table_heading_taxed      = $define['TABLE_HEADING_TAXED'];
-$table_heading_tax_coll   = $define['TABLE_HEADING_TAX_COLL'];
-$table_heading_shiphndl   = $define['TABLE_HEADING_SHIPHNDL'];
-$table_heading_loworder   = $define['TABLE_HEADING_LOWORDER'];
-$table_heading_voucher    = $define['TABLE_HEADING_VOUCHER'];
-$table_heading_coupon     = $define['TABLE_HEADING_COUPON'];
-$table_heading_other      = $define['TABLE_HEADING_OTHER'];
-$sms_version              = $define['SMS_VERSION'];
+$table_heading_income = $define['TABLE_HEADING_INCOME'];
+$table_heading_sales = $define['TABLE_HEADING_SALES'];
+$table_heading_nontaxed = $define['TABLE_HEADING_NONTAXED'];
+$table_heading_taxed = $define['TABLE_HEADING_TAXED'];
+$table_heading_tax_coll = $define['TABLE_HEADING_TAX_COLL'];
+$table_heading_shiphndl = $define['TABLE_HEADING_SHIPHNDL'];
+$table_heading_loworder = $define['TABLE_HEADING_LOWORDER'];
+$table_heading_voucher = $define['TABLE_HEADING_VOUCHER'];
+$table_heading_coupon = $define['TABLE_HEADING_COUPON'];
+$table_heading_other = $define['TABLE_HEADING_OTHER'];
+$sms_version = $define['SMS_VERSION'];
 
   /**
    * -----
@@ -107,10 +107,9 @@ $sms_version              = $define['SMS_VERSION'];
    * Be careful about editing this out. If you want to use a define, create a variable and 
    * assign the constant there. THEN use the new variable where you want to put the constant.
    * Otherwise... uhh... look up how PHP Heredocs work. (keep the first line as is and keep 
-   * the EOF; at the end on it's own separate line.
+   * the EOF; at the end on its own separate line.
    * - retched
    */
-  
 $define['HELP_CONTENT_HTML'] =<<<EOF
 
 <h2>Reporting Store Activity by Month</h2>

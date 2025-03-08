@@ -1,8 +1,8 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
- * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * Version 3.0.0
+ * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
     Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
@@ -20,7 +20,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 // -----
-// Part of the "Monthly Sales and Tax Report", v2.0.0.  Required by the report's AJAX handler:
+// Part of the "Monthly Sales and Tax Report", v3.0.0.  Required by the report's AJAX handler:
 // /admin/includes/classes/ajax/zcAjaxMonthlySales.php.
 //
 ?>
@@ -28,10 +28,10 @@
     <table class="table table-striped">
         <thead>
             <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent text-center"><?php echo SMS_AJAX_ORDER_ID; ?></td>
-                <td class="dataTableHeadingContent"><?php echo SMS_AJAX_DATE_PURCHASED; ?></td>
-                <td class="dataTableHeadingContent"><?php echo SMS_AJAX_TAX_DESCRIPTION; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo SMS_AJAX_TAX; ?></td>
+                <td class="dataTableHeadingContent text-center"><?= SMS_AJAX_ORDER_ID ?></td>
+                <td class="dataTableHeadingContent"><?= SMS_AJAX_DATE_PURCHASED ?></td>
+                <td class="dataTableHeadingContent"><?= SMS_AJAX_TAX_DESCRIPTION ?></td>
+                <td class="dataTableHeadingContent text-right"><?= SMS_AJAX_TAX ?></td>
             </tr>
         </thead>
         <tbody>
@@ -39,26 +39,26 @@
 if ($taxes->EOF) {
 ?>
             <tr class="dataTableRow text-center">
-                <td class="dataTableContent" colspan="4"><?php echo TEXT_NOTHING_FOUND; ?></td>
+                <td class="dataTableContent" colspan="4"><?= TEXT_NOTHING_FOUND ?></td>
             </tr>
 <?php
 } else {
     $tax_total = 0;
     foreach ($taxes as $tax) {
-        $tax_total += round($tax['value'], $sms->decimal_places);
+        $tax_total += round($tax['value'], $sms->getDecimalPlaces());
 ?>
             <tr class="dataTableRow">
-                <td class="dataTableContent text-center"><?php echo $tax['orders_id']; ?></td>
-                <td class="dataTableContent"><?php echo $tax['date_purchased']; ?></td>
-                <td class="dataTableContent"><?php echo $tax['title']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($tax['value']); ?></td>
+                <td class="dataTableContent text-center"><?= $tax['orders_id'] ?></td>
+                <td class="dataTableContent"><?= $tax['date_purchased'] ?></td>
+                <td class="dataTableContent"><?= $tax['title'] ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($tax['value']) ?></td>
             </tr>
 <?php
     }
 ?>
             <tr class="dataTableHeadingRow">
-                <td colspan="3" class="dataTableHeadingContent text-right"><?php echo SMS_AJAX_TAX_TOTAL; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo $sms->formatValue($tax_total); ?></td>
+                <td colspan="3" class="dataTableHeadingContent text-right"><?= SMS_AJAX_TAX_TOTAL ?></td>
+                <td class="dataTableHeadingContent text-right"><?= $sms->formatValue($tax_total) ?></td>
             </tr>
 <?php
 }

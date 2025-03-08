@@ -1,8 +1,8 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
- * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * Version 3.0.0
+ * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
     Copyright (C) 2024  Paul Williams
@@ -21,18 +21,22 @@
 ****************************************************************************/
 // -----
 // Part of the "Monthly Sales and Tax" plugin (v2.0.0+) by Cindy Merkin (lat9)
-// Copyright (c) 2021 Vinos de Frutas Tropicales
+// Copyright (c) 2021-2025 Vinos de Frutas Tropicales
 //
+use Zencart\Traits\InteractsWithPlugins;
+
 class zcAjaxMonthlySales extends base
 {
+    use Zencart\Traits\InteractsWithPlugins;
+
     public function getTaxes()
     {
         global $db;
 
         // -----
-        // Load the main report's language file.
+        // Use the base trait to determine this plugin's directory location.
         //
-        require DIR_WS_LANGUAGES . $_SESSION['language'] . '/stats_monthly_sales.php';
+        $this->detectZcPluginDetails(__DIR__);
 
         $html = '';
         $title = '';
@@ -62,14 +66,15 @@ class zcAjaxMonthlySales extends base
             }
             $taxes = $db->Execute($sql_query);
 
-            require DIR_WS_CLASSES . 'MonthlySalesAndTax.php';
+            require $this->pluginManagerInstalledVersionDirectory . 'admin/' . DIR_WS_CLASSES . 'MonthlySalesAndTax.php';
             $sms = new MonthlySalesAndTax($status, 'ASC', $year, $month);
 
             $monthname = $sms->getMonthName($month);
             $title = ($day === false) ? sprintf(SMS_AJAX_TITLE_MONTHLY, $monthname, $year) : sprintf(SMS_AJAX_TITLE_DAILY, $day, $monthname, $year);
 
+            $this->disableGzip();
             ob_start();
-            require DIR_WS_MODULES . 'sms/tpl_stats_monthly_sales_taxes.php';
+            require $this->pluginManagerInstalledVersionDirectory . 'admin/' . DIR_WS_MODULES . 'sms/tpl_stats_monthly_sales_taxes.php';
             $html = ob_get_clean();
         }
         $response = [

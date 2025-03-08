@@ -4,9 +4,8 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Monthly Sales and Tax Report (Zen-Cart&reg; v1.5.7)</title>
+<title>Monthly Sales and Tax Report (Zen-Cart&reg; v2.1.0 and later)</title>
 <style>
-<!--
 a, a:active, a:visited {
   color: #006666;
   text-decoration: none
@@ -15,7 +14,7 @@ a:hover {
     color:#00CC99;
     text-decoration: underline;
 }
-BODY, P, H1, H2, H3, H4, H5, H6, LI, TD, DD, DT, table, img {
+body, p, h1, h2, h3, h4, h5, h6, li, td, dd, dt, table, img {
   font-family: Verdana, AvantGarde, Tahoma, Arial, sans-serif;
   font-size: 12px;
   color: black;
@@ -62,17 +61,16 @@ tr td:first-child {
 .o {
   background-color: #f4f4f4;
 }
--->
 </style>
 </head>
 
 <body>
-<h1>Monthly Sales and Tax report for Zen Cart&reg; v1.5.7+</h1>
-<h3>Version 2.1.0</h3>
-<p>Copyright (c) 2012-2022, <a href="https://vinosdefrutastropicales.com" target="_blank" rel="noopener noreferrer">Vinos de Frutas Tropicales</a> (lat9)</p>
+<h1>Monthly Sales and Tax report for Zen Cart&reg; v2.1.0+</h1>
+<h3>Version 3.0.0</h3>
+<p>Copyright (c) 2012-2025, <a href="https://vinosdefrutastropicales.com" target="_blank" rel="noopener noreferrer">Vinos de Frutas Tropicales</a> (lat9)</p>
 <p>Current support thread at Zen Cart Forums: <a href="https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread" target="_blank">https://www.zen-cart.com/showthread.php?104544-Monthly-Sales-and-Tax-Summary-Report-support-thread</a>.  This software is provided for your use under the GNU General Public License.</p>
 <p>Current Zen Cart download: <a href="https://www.zen-cart.com/downloads.php?do=file&id=734" target="_blank" rel="noopener noreferrer">https://www.zen-cart.com/downloads.php?do=file&id=734</a>.</p>
-<p><b>Note:</b> This report requires <em>Zen Cart v1.5.7 or later</em> for its proper operation! It will require 1.5.8 for Plugin Manager.</p>
+<p><b>Note:</b> This report requires <em>Zen Cart v2.1.0 or later</em> for its proper operation!</p>
 
 <h2>What it does</h2>
 <p>This drop-in Zen Cart admin report displays a summary of monthly or daily totals:</p>
@@ -99,37 +97,20 @@ tr td:first-child {
     <li>A one-click <em>Save CSV</em> button to save the current report as a <code>.csv</code> file on your computer.</li>
 </ul>
 
-<h2>Installation - Pre ZenCart 1.5.8</h2>
-<p>There are no core-file overwrites in this plugin, but you should <strong>always</strong> backup your cart's database and files prior to making any changes.</p>
-<p>Copy the following files to your cart's installation, after renaming the &quot;YOUR_ADMIN&quot; directory to match your custom admin's name:</p>
+<h2>Installation/Uninstallation - Zen Cart 2.1.0+</h2>
+<p>This module is now an encapsulated module.</p>
 <ol>
-    <li>/includes/classes/ajax/zcAjaxMonthlySales.php</li>
-    <li>/YOUR_ADMIN/stats_monthly_sales.php</li>
-    <li>/YOUR_ADMIN/includes/classes/MonthlySalesAndTax.php</li>
-    <li>/YOUR_ADMIN/includes/functions/extra_functions/stats_monthly_sales.php</li>
-    <li>/YOUR_ADMIN/includes/javascript/stats_monthly_sales.js</li>
-    <li>/YOUR_ADMIN/includes/languages/english/stats_monthly_sales.php</li>
-    <li>/YOUR_ADMIN/includes/languages/english/extra_definitions/stats_monthly_sales.php</li>
-    <li>/YOUR_ADMIN/includes/modules/sms/tpl_stats_monthly_sales_taxes.php</li>
-</ol>
-<h2>Uninstall - Pre ZenCart 1.5.8</h2>
-<p>First, delete the files that were copied to your zen-cart installation's admin directories then use your admin's <em>Tools-&gt;Run SQL Patches</em> to run the file <b>stats_monthly_sales_uninstall.sql</b>.</p>
-<h2>Installation/Uninstallation - ZenCart 1.5.8+</h2>
-<p>This module is now an encapsulated module. </p>
-<ol>
-  <li>Extract the directory &quot;MonthlySalesTaxReport&quot; into your ZenCart's 'zc_plugins' directory. </li>
-  <li>Log in to your ZenCart Admin and visit Modules &gt; Plugin Manager.</li>
-  <li>Find the row &quot;Monthly Sales Tax Report&quot; and click &quot;Install&quot;</li>
+    <li>Extract the directory <code>MonthlySalesTaxReport</code> into your ZenCart's <code>zc_plugins</code> directory.</li>
+    <li>Log in to your ZenCart Admin and visit <b>Modules :: Plugin Manager</b>.</li>
+    <li>Find the row &quot;Monthly Sales Tax Report&quot; and click &quot;Install&quot;</li>
 </ol>
 <p>To uninstall, visit the same page but click &quot;Uninstall&quot;.</p>
 
 <h2>Version History:</h2>
 <ul>
-    <li>v2.1.0, 2024-12-26 (retched)
-      <ul>
-        <li>This module was made into an encapsulated module. Since the module only affects the back end, it should still work in ZC 1.5.7, ZC 1.5.8, ZC 2.0.0, and ZC 2.1.0. For older ZC you should still be able to run the module as you normally would.</li>
-      </ul>
-    </li>
+    <li>v3.0.0-beta1, 2025-03-09 (lat9, retched)<ul>
+        <li>This module was made into a Zen Cart <var>encapsulated</var> plugin, supporting Zen Cart 2.1.0 and later.</li>
+    </ul></li>
     <li>v2.0.4, 2022-05-19 (lat9):
     <ul>
         <li>BUGFIX: Correct month/day sorting.</li>

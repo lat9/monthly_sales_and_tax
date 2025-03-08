@@ -1,7 +1,7 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
+ * Version 3.0.0
  * @copyright Portions Copyright 2004-2024 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
@@ -20,8 +20,8 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 // -----
-// Part of the "Monthly Sales and Tax" plugin (v2.0.0+) for Zen Cart 157+.
-// Copyright (C) 2021-2022, Vinos de Frutas Tropicales.
+// Part of the "Monthly Sales and Tax" plugin (v2.0.0+) for Zen Cart 2.1.0+.
+// Copyright (C) 2021-2025, Vinos de Frutas Tropicales.
 //
 class MonthlySalesAndTax extends base
 {
@@ -105,7 +105,7 @@ class MonthlySalesAndTax extends base
         //
         require DIR_WS_CLASSES . 'currencies.php';
         $currencies = new currencies();
-        $this->decimal_places = $currencies->get_decimal_places(DEFAULT_CURRENCY);
+        $this->decimal_places = (int)$currencies->get_decimal_places(DEFAULT_CURRENCY);
 
         // -----
         // Now that the base order_totals to be gathered has been determined, see which form
@@ -150,6 +150,10 @@ class MonthlySalesAndTax extends base
     public function isMonthlyReport()
     {
         return $this->reportModeMonthly;
+    }
+    public function getDecimalPlaces(): int
+    {
+        return $this->decimal_places;
     }
 
     public function formatValue($value)

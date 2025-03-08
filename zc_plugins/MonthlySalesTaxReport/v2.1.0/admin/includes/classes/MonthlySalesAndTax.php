@@ -1,4 +1,24 @@
 <?php
+/**
+ * Monthly Sales and Tax Summary mod for Zen Cart
+ * Version 2.1.0
+ * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * @author Vinos de Frutas Tropicales (lat9)
+****************************************************************************
+    Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 2 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+****************************************************************************/
 // -----
 // Part of the "Monthly Sales and Tax" plugin (v2.0.0+) for Zen Cart 157+.
 // Copyright (C) 2021-2022, Vinos de Frutas Tropicales.
@@ -8,6 +28,21 @@ class MonthlySalesAndTax extends base
     public
         $sales,         //-An array of sales' information
         $status;        //-The orders-status value used to create the above array (0 if all statuses)
+
+    protected
+        $debug,
+        $debug_logfile,
+        $using_loworder,
+        $using_gv,
+        $using_coupon,
+        $base_classes,
+        $decimal_places,
+        $selectedYear,
+        $selectedMonth,
+        $reportModeMonthly,
+        $sortDir,
+        $additional_totals,
+        $baseClassesList;
 
     // -----
     // Class constructor, providing the settings to be used to create the report:
@@ -58,7 +93,7 @@ class MonthlySalesAndTax extends base
         $this->baseClassesList = "'" . implode("', '", array_keys($this->base_classes)) . "'";
         $extra_class_query = $db->Execute(
             "SELECT value
-               FROM " . TABLE_ORDERS_TOTAL . " 
+               FROM " . TABLE_ORDERS_TOTAL . "
               WHERE class NOT IN (" . $this->baseClassesList . ")
               LIMIT 1"
         );

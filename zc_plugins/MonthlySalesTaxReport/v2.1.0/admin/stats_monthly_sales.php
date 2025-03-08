@@ -1,6 +1,26 @@
 <?php
-/*
-  $Id: stats_monthly_sales.php, v2.0.1 2022-01-09  $
+/**
+ * Monthly Sales and Tax Summary mod for Zen Cart
+ * Version 2.1.0
+ * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * @author Vinos de Frutas Tropicales (lat9)
+****************************************************************************
+    Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 2 of the License.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+****************************************************************************
+
+$Id: stats_monthly_sales.php, v2.0.1 2022-01-09  $
 
   Copyright 2013-2021 Vinos de Frutas Tropicales (lat9)
   Copyright 2003-2005 Zen Cart Development Team
@@ -15,7 +35,7 @@
   Orginal OSC contributed by Fritz Clapp <fritz@sonnybarger.com>
 
   2021-12-13 (lat9):
-    - 
+    -
   2014-07-23 (lat9):
     - Converted to use $db for SQL actions, as preventative measure for PHP 5.5 deprecation of mysql_* functions
     - Converted explicit <input type="hidden" ...> to zen_draw_hidden_field calls
@@ -48,9 +68,9 @@ Data is reported as of order purchase date.
 
 If an order status is chosen, the report summarizes orders with that status.
 
-The capability to "drill down" on any month to report the daily summary for that month.  
+The capability to "drill down" on any month to report the daily summary for that month.
 
-Report rows are initially shown in newest to oldest, top to bottom, 
+Report rows are initially shown in newest to oldest, top to bottom,
 but this order may be inverted by clicking the "Invert" control button.
 
 A popup display that lists the various types (and their
@@ -312,19 +332,19 @@ if ($sms->usingLowOrder()) {
     $column_count++;
 ?>
                 <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_LOWORDER; ?></td>
-<?php 
+<?php
 }
 if ($sms->usingGiftVouchers()) {
     $column_count++;
 ?>
                 <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_VOUCHER; ?></td>
-<?php 
+<?php
 }
 if ($sms->usingCoupons()) {
     $column_count++;
 ?>
                 <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_COUPON; ?></td>
-<?php 
+<?php
 }
 if ($sms->usingAdditionalTotals()) {
     $column_count++;
@@ -380,17 +400,17 @@ if (count($sales) === 0) {
             if ($sms->usingLowOrder()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['loworder']); ?></td>
-<?php 
+<?php
             }
             if ($sms->usingGiftVouchers()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gv']); ?></td>
-<?php 
+<?php
             }
             if ($sms->usingCoupons()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['coupon']); ?></td>
-<?php 
+<?php
             }
             if ($sms->usingAdditionalTotals()) {
 ?>
@@ -415,7 +435,7 @@ if (count($sales) === 0) {
             $month_output = '<a href="' . zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['month', 'year']) . 'month=' . $sale['month'] . '&year=' . $sale['year']) . '"  title="' . TEXT_BUTTON_REPORT_GET_DETAIL . '">' . $sms->getMonthName($sale['month']) . '</a>';
             $data_day = '';
         }
-        
+
         // -----
         // Account for totals that might not be present for the given time period.
         //
@@ -439,19 +459,19 @@ if (count($sales) === 0) {
             $totals['loworder'] += $sale['loworder'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['loworder']; ?></td>
-<?php 
+<?php
         }
         if ($sms->usingGiftVouchers()) {
             $totals['gv'] += $sale['gv'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['gv']; ?></td>
-<?php 
+<?php
         }
         if ($sms->usingCoupons()) {
             $totals['coupon'] += $sale['coupon'];
 ?>
                 <td class="dataTableContent text-right"><?php echo $sale['coupon']; ?></td>
-<?php 
+<?php
         }
         if ($sms->usingAdditionalTotals()) {
             $totals['other'] += $sale['other'];
@@ -486,17 +506,17 @@ if (count($sales) === 0) {
     if ($sms->usingLowOrder()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['loworder']); ?></td>
-<?php 
+<?php
     }
     if ($sms->usingGiftVouchers()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gv']); ?></td>
-<?php 
+<?php
     }
     if ($sms->usingCoupons()) {
 ?>
                 <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['coupon']); ?></td>
-<?php 
+<?php
     }
     if ($sms->usingAdditionalTotals()) {
 ?>
@@ -517,9 +537,9 @@ if ($is_monthly_report === false) {
 <?php
 }
 
-require DIR_WS_INCLUDES . 'footer.php'; 
+require DIR_WS_INCLUDES . 'footer.php';
 ?>
 </body>
 </html>
-<?php 
-require DIR_WS_INCLUDES . 'application_bottom.php'; 
+<?php
+require DIR_WS_INCLUDES . 'application_bottom.php';

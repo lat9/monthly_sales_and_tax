@@ -1,8 +1,8 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
- * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * Version 3.0.0
+ * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
     Copyright (C) 2024  Paul Williams
@@ -21,12 +21,12 @@
 ****************************************************************************/
 
 return [
-    'pluginVersion' => 'v2.1.0',
+    'pluginVersion' => 'v3.0.0',
     'pluginName' => 'Monthly Sales and Tax Summary mod for Zen Cart',
     'pluginDescription' => 'This report displays a summary of monthly or daily totals:<ul><li>gross income (order totals)</li><li>subtotals of all orders in the selected period</li><li>nontaxed sales subtotals</li><li>taxed sales subtotals</li><li>tax collected</li><li>shipping/handling charges</li><li>low order fees (if present)</li><li>gift vouchers (or other addl order total component, if present)</li></ul><br>The data comes from the orders and orders_total tables.',
-    'pluginAuthor' => 'Vinos de Frutas Tropicales (lat9)',
+    'pluginAuthor' => 'Vinos de Frutas Tropicales (lat9, retched)',
     'pluginId' => 734, // ID from Zen Cart forum
-    'zcVersions' => ['v158', 'v200', 'v201'],
+    'zcVersions' => ['v210'],
     'changelog' => 'changelog.md', // online URL (eg github release tag page, or changelog file there) or local filename only, ie: changelog.txt (in same dir as this manifest file)
     'github_repo' => 'https://github.com/lat9/monthly_sales_and_tax', // url
     'pluginGroups' => [],

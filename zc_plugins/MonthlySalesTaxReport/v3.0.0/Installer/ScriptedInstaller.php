@@ -26,19 +26,52 @@ class ScriptedInstaller extends ScriptedInstallBase
 {
     protected function executeInstall()
     {
-        
-        // No special code or database changes
- 
+        if (!$this->purgeOldFiles()) {
+            return false;
+        }
+
+        if (!zen_page_key_exists('stats_monthly_sales')) {
+            // Add Monthly Report link to Reports menu
+            zen_register_admin_page('stats_monthly_sales', 'BOX_STATS_SALES_TOTALS', 'FILENAME_STATS_MONTHLY_SALES', '', 'reports', 'Y');
+        }
         return true;
     }
-    
 
     protected function executeUninstall()
     {
-        // No special code or database changes
-
-        $this->executeInstallerSql("DELETE FROM " . TABLE_ADMIN_PAGES . " WHERE page_key = 'reportsMonthlySalesTax'");
+        zen_deregister_admin_pages('stats_monthly_sales');
         return true;
+    }
 
+    protected function purgeOldFiles(): bool
+    {
+        $filesToDelete = [
+            DIR_FS_ADMIN . 'stats_monthly_sales.php',
+            DIR_FS_ADMIN . 'includes/classes/MonthlySalesAndTax.php',
+            DIR_FS_ADMIN . 'includes/functions/extra_functions/stats_monthly_sales.php',
+            DIR_FS_ADMIN . 'includes/javascript/stats_monthly_sales.js',
+            DIR_FS_ADMIN . 'includes/languages/english/extra_definitions/stats_monthly_sales.php',
+            DIR_FS_ADMIN . 'includes/modules/sms/tpl_stats_monthly_sales_taxes.php',
+            DIR_FS_CATALOG . 'includes/classes/ajax/zcAjaxMonthlySales.php',
+        ];
+
+        $errorOccurred = false;
+        foreach ($filesToDelete as $key => $nextFile) {
+            if (file_exists($nextFile)) {
+                $result = unlink($nextFile);
+                if (!$result && file_exists($nextFile)) {
+                    $errorOccurred = true;
+                    $this->errorContainer->addError(
+                        0,
+                        sprintf(ERROR_UNABLE_TO_DELETE_FILE, $nextFile),
+                        false,
+                        // this str_replace has to do DIR_FS_ADMIN before CATALOG because catalog is contained within admin, so results are wrong.
+                        // also, '[admin_directory]' is used to obfuscate the admin dir name, in case the user copy/pastes output to a public forum for help.
+                        sprintf(ERROR_UNABLE_TO_DELETE_FILE, str_replace([DIR_FS_ADMIN, DIR_FS_CATALOG], ['[admin_directory]/', ''], $nextFile))
+                    );
+                }
+            }
+        }
+        return !$errorOccurred;
     }
 }

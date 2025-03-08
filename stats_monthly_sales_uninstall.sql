@@ -1,1 +1,0 @@
-DELETE FROM admin_pages WHERE page_key = 'stats_monthly_sales';

@@ -22,7 +22,7 @@
 
 return [
     'pluginVersion' => 'v3.0.0',
-    'pluginName' => 'Monthly Sales and Tax Summary mod for Zen Cart',
+    'pluginName' => 'Monthly Sales and Tax Summary',
     'pluginDescription' => 'This report displays a summary of monthly or daily totals:<ul><li>gross income (order totals)</li><li>subtotals of all orders in the selected period</li><li>nontaxed sales subtotals</li><li>taxed sales subtotals</li><li>tax collected</li><li>shipping/handling charges</li><li>low order fees (if present)</li><li>gift vouchers (or other addl order total component, if present)</li></ul><br>The data comes from the orders and orders_total tables.',
     'pluginAuthor' => 'Vinos de Frutas Tropicales (lat9, retched)',
     'pluginId' => 734, // ID from Zen Cart forum

@@ -190,7 +190,7 @@ if (isset($_GET['csv']) && $_GET['csv'] === 'yes' && count($sales) !== 0) {
 //
 ?>
 <!doctype html>
-<html <?php echo HTML_PARAMS; ?>>
+<html <?= HTML_PARAMS ?>>
 <head>
     <?php require DIR_WS_INCLUDES . 'admin_html_head.php'; ?>
     <style>
@@ -232,11 +232,11 @@ if ($orders_status_name !== '') {
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title"><?php echo HELP_CONTENT_HEADER; ?></h4>
+                    <h4 class="modal-title"><?= HELP_CONTENT_HEADER ?></h4>
                 </div>
-                <div class="modal-body"><?php echo HELP_CONTENT_HTML; ?></div>
+                <div class="modal-body"><?= HELP_CONTENT_HTML ?></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo HELP_CLOSE; ?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= HELP_CLOSE ?></button>
                 </div>
             </div>
 
@@ -257,7 +257,7 @@ if ($orders_status_name !== '') {
                 </div>
                 <div class="modal-body" id="sms-tax-body"></div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo HELP_CLOSE; ?></button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= HELP_CLOSE ?></button>
                 </div>
             </div>
 
@@ -269,7 +269,9 @@ if ($orders_status_name !== '') {
 //
 ?>
     <div class="pull-right noprint">
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#smsHelp" title="<?php echo TEXT_BUTTON_REPORT_HELP_DESC; ?>"><i class="fa fa-question fa-lg" aria-hidden="true"></i></button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#smsHelp" title="<?= TEXT_BUTTON_REPORT_HELP_DESC ?>">
+            <i class="fa fa-question fa-lg" aria-hidden="true"></i>
+        </button>
     </div>
 <?php
 // -----
@@ -279,60 +281,60 @@ if ($orders_status_name !== '') {
 // Also includes buttons to "Print" or "Save CSV" the current output.
 //
 ?>
-    <h1><?php echo HEADING_TITLE . ' ' . SMS_VERSION; ?></h1>
-    <h2><?php echo sprintf(HEADING_SUBTITLE, $subtitle_value); ?></h2>
+    <h1><?= HEADING_TITLE . ' ' . SMS_VERSION ?></h1>
+    <h2><?= sprintf(HEADING_SUBTITLE, $subtitle_value) ?></h2>
     <div class="row noprint">
-        <?php echo zen_draw_form('status', FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['status', 'invert', 'csv']), 'get', 'class="form-inline"'); ?>
-            <?php echo zen_draw_hidden_field('year', $sel_year) . zen_draw_hidden_field('month', $sel_month); ?>
+        <?= zen_draw_form('status', FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['status', 'invert', 'csv']), 'get', 'class="form-inline"') ?>
+            <?= zen_draw_hidden_field('year', $sel_year) . zen_draw_hidden_field('month', $sel_month) ?>
             <div class="form-group">
-                <?php echo zen_draw_label(HEADING_TITLE_STATUS, 'selectstatus'); ?>
-                <?php echo zen_draw_pull_down_menu('status', $orders_statuses, $status, 'class="form-control" id="selectstatus"'); ?>
+                <?= zen_draw_label(HEADING_TITLE_STATUS, 'selectstatus') ?>
+                <?= zen_draw_pull_down_menu('status', $orders_statuses, $status, 'class="form-control" id="selectstatus"') ?>
             </div>
             <div class="form-group">
-                <label for="invert"><?php echo zen_draw_checkbox_field('invert', 'yes', !empty($invert), '', 'id="invert"') . '&nbsp;' . TEXT_BUTTON_REPORT_INVERT; ?></label>
+                <label for="invert"><?= zen_draw_checkbox_field('invert', 'yes', !empty($invert), '', 'id="invert"') . '&nbsp;' . TEXT_BUTTON_REPORT_INVERT ?></label>
             </div>
-            <button type="submit" class="btn btn-primary"><?php echo IMAGE_GO; ?></button>
+            <button type="submit" class="btn btn-primary"><?= IMAGE_GO ?></button>
 
-            <a class="btn btn-info ml-3" href="javascript:window.print();" role="button" title="<?php echo TEXT_BUTTON_REPORT_HELP_DESC; ?>"><?php echo TEXT_BUTTON_REPORT_PRINT; ?></a>
-            <button type="submit" class="btn btn-info ml-3" name="csv" value="yes"><?php echo TEXT_BUTTON_REPORT_SAVE; ?></button>
-        <?php echo '</form>'; ?>
+            <a class="btn btn-info ml-3" href="javascript:window.print();" role="button" title="<?= TEXT_BUTTON_REPORT_HELP_DESC ?>"><?= TEXT_BUTTON_REPORT_PRINT ?></a>
+            <button type="submit" class="btn btn-info ml-3" name="csv" value="yes"><?= TEXT_BUTTON_REPORT_SAVE ?></button>
+        <?= '</form>' ?>
     </div>
 
     <table class="table table-hover mt-3">
         <thead>
             <tr class="dataTableHeadingRow">
-                <td class="dataTableHeadingContent text-center"><?php echo TABLE_HEADING_MONTH; ?></td>
-                <td class="dataTableHeadingContent text-center"><?php echo ($is_monthly_report === true) ? TABLE_HEADING_YEAR : TABLE_HEADING_DAY; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_INCOME; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_SALES; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_NONTAXED; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_TAXED; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_TAX_COLL; ?></td>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_SHIPHNDL; ?></td>
+                <td class="dataTableHeadingContent text-center"><?= TABLE_HEADING_MONTH ?></td>
+                <td class="dataTableHeadingContent text-center"><?= ($is_monthly_report === true) ? TABLE_HEADING_YEAR : TABLE_HEADING_DAY ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_INCOME ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_SALES ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_NONTAXED ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_TAXED ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_TAX_COLL ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_SHIPHNDL ?></td>
 <?php
 $column_count = 8;
 if ($sms->usingLowOrder()) {
     $column_count++;
 ?>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_LOWORDER; ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_LOWORDER ?></td>
 <?php
 }
 if ($sms->usingGiftVouchers()) {
     $column_count++;
 ?>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_VOUCHER; ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_VOUCHER ?></td>
 <?php
 }
 if ($sms->usingCoupons()) {
     $column_count++;
 ?>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_COUPON; ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_COUPON ?></td>
 <?php
 }
 if ($sms->usingAdditionalTotals()) {
     $column_count++;
 ?>
-                <td class="dataTableHeadingContent text-right"><?php echo TABLE_HEADING_OTHER; ?></td>
+                <td class="dataTableHeadingContent text-right"><?= TABLE_HEADING_OTHER ?></td>
 <?php
 }
 ?>
@@ -343,7 +345,7 @@ if ($sms->usingAdditionalTotals()) {
 if (count($sales) === 0) {
 ?>
             <tr class="dataTableContent text-center">
-                <td colspan="<?php echo $column_count; ?>"><?php echo TEXT_NOTHING_FOUND; ?></td>
+                <td colspan="<?= $column_count ?>"><?= TEXT_NOTHING_FOUND ?></td>
             </tr>
 <?php
 } else {
@@ -371,33 +373,33 @@ if (count($sales) === 0) {
         } elseif ($totals['year'] !== $sale['year']) {
 ?>
             <tr class="dataTableHeadingRow fw-bold">
-                <td class="dataTableContent text-center"><?php echo ($is_monthly_report === true) ? TABLE_FOOTER_YEAR : $totals['monthname']; ?></td>
-                <td class="dataTableContent text-center"><?php echo $totals['year']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gross_sales']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_total']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_untaxed']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_taxed']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['tax']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['shipping']); ?></td>
+                <td class="dataTableContent text-center"><?= ($is_monthly_report === true) ? TABLE_FOOTER_YEAR : $totals['monthname'] ?></td>
+                <td class="dataTableContent text-center"><?= $totals['year'] ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['gross_sales']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_total']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_untaxed']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_taxed']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['tax']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['shipping']) ?></td>
 <?php
             if ($sms->usingLowOrder()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['loworder']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['loworder']) ?></td>
 <?php
             }
             if ($sms->usingGiftVouchers()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gv']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['gv']) ?></td>
 <?php
             }
             if ($sms->usingCoupons()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['coupon']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['coupon']) ?></td>
 <?php
             }
             if ($sms->usingAdditionalTotals()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['other']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['other']) ?></td>
 <?php
             }
 ?>
@@ -429,37 +431,41 @@ if (count($sales) === 0) {
         }
 ?>
             <tr class="dataTableRow">
-                <td class="dataTableContent text-center"><?php echo $month_output; ?></td>
-                <td class="dataTableContent text-center"><?php echo ($is_monthly_report === true) ? $sale['year'] : $sale['day']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sale['gross_sales']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sale['products_total']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sale['products_untaxed']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sale['products_taxed']; ?></td>
-                <td class="dataTableContent text-right"><a href="#" class="sms-tax" data-year="<?php echo $sale['year']; ?>" data-month="<?php echo $sale['month']; ?>" <?php echo $data_day; ?>><?php echo ($sale['tax'] === 0) ? '' : $sale['tax']; ?></a></td>
-                <td class="dataTableContent text-right"><?php echo $sale['shipping']; ?></td>
+                <td class="dataTableContent text-center"><?= $month_output ?></td>
+                <td class="dataTableContent text-center"><?= ($is_monthly_report === true) ? $sale['year'] : $sale['day'] ?></td>
+                <td class="dataTableContent text-right"><?= $sale['gross_sales'] ?></td>
+                <td class="dataTableContent text-right"><?= $sale['products_total'] ?></td>
+                <td class="dataTableContent text-right"><?= $sale['products_untaxed'] ?></td>
+                <td class="dataTableContent text-right"><?= $sale['products_taxed'] ?></td>
+                <td class="dataTableContent text-right">
+                    <a href="#" class="sms-tax" data-year="<?= $sale['year'] ?>" data-month="<?= $sale['month'] ?>" <?= $data_day ?>>
+                        <?= ($sale['tax'] === 0) ? '' : $sale['tax'] ?>
+                    </a>
+                </td>
+                <td class="dataTableContent text-right"><?= $sale['shipping'] ?></td>
 <?php
         if ($sms->usingLowOrder()) {
             $totals['loworder'] += $sale['loworder'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sale['loworder']; ?></td>
+                <td class="dataTableContent text-right"><?= $sale['loworder'] ?></td>
 <?php
         }
         if ($sms->usingGiftVouchers()) {
             $totals['gv'] += $sale['gv'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sale['gv']; ?></td>
+                <td class="dataTableContent text-right"><?= $sale['gv'] ?></td>
 <?php
         }
         if ($sms->usingCoupons()) {
             $totals['coupon'] += $sale['coupon'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sale['coupon']; ?></td>
+                <td class="dataTableContent text-right"><?= $sale['coupon'] ?></td>
 <?php
         }
         if ($sms->usingAdditionalTotals()) {
             $totals['other'] += $sale['other'];
 ?>
-                <td class="dataTableContent text-right"><?php echo $sale['other']; ?></td>
+                <td class="dataTableContent text-right"><?= $sale['other'] ?></td>
 <?php
         }
 ?>
@@ -477,33 +483,33 @@ if (count($sales) === 0) {
     }
 ?>
             <tr class="dataTableHeadingRow fw-bold">
-                <td class="dataTableContent text-center"><?php echo ($is_monthly_report === true) ? TABLE_FOOTER_YEAR : $totals['monthname']; ?></td>
-                <td class="dataTableContent text-center"><?php echo $totals['year']; ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gross_sales']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_total']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_untaxed']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['products_taxed']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['tax']); ?></td>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['shipping']); ?></td>
+                <td class="dataTableContent text-center"><?= ($is_monthly_report === true) ? TABLE_FOOTER_YEAR : $totals['monthname'] ?></td>
+                <td class="dataTableContent text-center"><?= $totals['year'] ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['gross_sales']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_total']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_untaxed']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_taxed']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['tax']) ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['shipping']) ?></td>
 <?php
     if ($sms->usingLowOrder()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['loworder']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['loworder']) ?></td>
 <?php
     }
     if ($sms->usingGiftVouchers()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['gv']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['gv']) ?></td>
 <?php
     }
     if ($sms->usingCoupons()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['coupon']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['coupon']) ?></td>
 <?php
     }
     if ($sms->usingAdditionalTotals()) {
 ?>
-                <td class="dataTableContent text-right"><?php echo $sms->formatValue($totals['other']); ?></td>
+                <td class="dataTableContent text-right"><?= $sms->formatValue($totals['other']) ?></td>
 <?php
     }
 ?>
@@ -516,7 +522,11 @@ if (count($sales) === 0) {
 <?php
 if ($is_monthly_report === false) {
 ?>
-    <div class="row"><a href="<?php echo zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['year', 'month', 'csv'])); ?>" role="button" class="btn btn-default" title="<?php echo TEXT_BUTTON_REPORT_BACK_DESC; ?>"><?php echo IMAGE_BACK; ?></a></div>
+    <div class="row">
+        <a href="<?= zen_href_link(FILENAME_STATS_MONTHLY_SALES, zen_get_all_get_params(['year', 'month', 'csv'])) ?>" role="button" class="btn btn-default" title="<?= TEXT_BUTTON_REPORT_BACK_DESC ?>">
+            <?= IMAGE_BACK ?>
+        </a>
+    </div>
 <?php
 }
 

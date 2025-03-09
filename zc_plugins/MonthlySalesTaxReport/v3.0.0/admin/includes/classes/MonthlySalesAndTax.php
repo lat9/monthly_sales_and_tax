@@ -41,6 +41,7 @@ class MonthlySalesAndTax extends base
     protected string $sortDir;
     protected bool $additional_totals;
     protected string $baseClassesList;
+    protected string $selectedState;
 
     // -----
     // Class constructor, providing the settings to be used to create the report:
@@ -50,7 +51,7 @@ class MonthlySalesAndTax extends base
     // $selected_year .... The specific year for which the report is run; set to '0' for all years.
     // $selected_month ... The specific month (with year) for which the report is run; set to '0' for all dates.
     //
-    public function __construct($status, $sort_dir, $selected_year, $selected_month)
+    public function __construct($status, $sort_dir, $selected_year, $selected_month, string $selected_state)
     {
         global $db;
 
@@ -119,6 +120,7 @@ class MonthlySalesAndTax extends base
         $this->reportModeMonthly = ($this->selectedYear === 0 && $this->selectedMonth === 0);
 
         $this->sortDir = ($sort_dir === 'DESC') ? 'DESC' : 'ASC';
+        $this->selectedState = $selected_state;
 
         // -----
         // Log the values set; they define how the report will run.
@@ -322,6 +324,10 @@ class MonthlySalesAndTax extends base
         if ($this->reportModeMonthly === false) {
             $year_month = $this->selectedYear . '-' . $this->selectedMonth . '-';
             $conditions .= ' ' . $connector . " o.date_purchased BETWEEN '" . $year_month . "01 00:00:00' AND '" . $year_month . "31 23:59:59'";
+            $connector = 'AND';
+        }
+        if ($this->selectedState !== 'all') {
+            $conditions .= ' ' . $connector . " o.delivery_state = '" . zen_db_input($this->selectedState) . "'";
         }
         $conditions .= ' ';
         $conditions .= "GROUP BY DATE_FORMAT(o.date_purchased, '%Y'), DATE_FORMAT(o.date_purchased, '%m')";

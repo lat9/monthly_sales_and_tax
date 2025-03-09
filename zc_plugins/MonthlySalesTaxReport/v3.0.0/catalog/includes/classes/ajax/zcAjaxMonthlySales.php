@@ -40,7 +40,7 @@ class zcAjaxMonthlySales extends base
 
         $html = '';
         $title = '';
-        if (isset($_POST['status']) && ctype_digit($_POST['status']) && isset($_POST['year']) && ctype_digit($_POST['year']) && isset($_POST['month']) && ctype_digit($_POST['month'])) {
+        if (ctype_digit($_POST['status'] ?? 'x') && ctype_digit($_POST['year'] ?? 'x') && ctype_digit($_POST['month'] ?? 'x')) {
             $year = $_POST['year'];
             $month = $_POST['month'];
             $status = $_POST['status'];
@@ -64,10 +64,14 @@ class zcAjaxMonthlySales extends base
             if ($day !== false) {
                 $sql_query .= ' AND DAY(o.date_purchased) = ' . $day;
             }
+            $selected_state = ($_POST['state'] ?? 'all');
+            if ($selected_state !== 'all') {
+                $sql_query .= " AND o.delivery_state = '" . zen_db_input($_POST['state']) . "'";
+            }
             $taxes = $db->Execute($sql_query);
 
             require $this->pluginManagerInstalledVersionDirectory . 'admin/' . DIR_WS_CLASSES . 'MonthlySalesAndTax.php';
-            $sms = new MonthlySalesAndTax($status, 'ASC', $year, $month);
+            $sms = new MonthlySalesAndTax($status, 'ASC', $year, $month, $selected_state);
 
             $monthname = $sms->getMonthName($month);
             $title = ($day === false) ? sprintf(SMS_AJAX_TITLE_MONTHLY, $monthname, $year) : sprintf(SMS_AJAX_TITLE_DAILY, $day, $monthname, $year);

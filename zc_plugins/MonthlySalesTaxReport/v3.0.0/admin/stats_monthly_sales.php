@@ -148,11 +148,40 @@ if ($orders_status_name === '') {
 }
 
 // -----
+// See if a specific state has been requested.
+//
+$state = ($_GET['state'] ?? 'all');
+$selected_state = 'all';
+
+// -----
+// Get a list of delivery states present in the site's orders for the
+// dropdown.
+//
+$states = [
+    ['id' => 'all', 'text' => TEXT_ALL_STATES],
+];
+$orders_states = $db->Execute(
+    "SELECT DISTINCT delivery_state
+       FROM " . TABLE_ORDERS . "
+      ORDER BY delivery_state ASC"
+);
+foreach ($orders_states as $next_state) {
+    $states[] = [
+        'id' => $next_state['delivery_state'],
+        'text' => $next_state['delivery_state'],
+    ];
+    if ($next_state['delivery_state'] === $state) {
+        $selected_state = $state;
+    }
+}
+unset($orders_states, $next_state);
+
+// -----
 // We've got all the parameters to generate the report, create an instance of the Monthly Sales' helper-class
 // and get the information to be displayed or downloaded.
 //
 require DIR_WS_CLASSES . 'MonthlySalesAndTax.php';
-$sms = new MonthlySalesAndTax($status, ($invert === '') ? 'DESC' : 'ASC', $sel_year, $sel_month);
+$sms = new MonthlySalesAndTax($status, ($invert === '') ? 'DESC' : 'ASC', $sel_year, $sel_month, $selected_state);
 $sales = $sms->createReport();
 
 // -----
@@ -218,6 +247,9 @@ if ($is_monthly_report === false) {
 }
 if ($orders_status_name !== '') {
     $subtitle_value .= sprintf(HEADING_SUBTITLE_STATUS, $orders_status_name);
+}
+if ($selected_state !== 'all') {
+    $subtitle_value .= sprintf(HEADING_SUBTITLE_STATE, zen_output_string_protected($selected_state));
 }
 ?>
 <div class="container-fluid">
@@ -289,6 +321,10 @@ if ($orders_status_name !== '') {
             <div class="form-group">
                 <?= zen_draw_label(HEADING_TITLE_STATUS, 'selectstatus') ?>
                 <?= zen_draw_pull_down_menu('status', $orders_statuses, $status, 'class="form-control" id="selectstatus"') ?>
+            </div>
+            <div class="form-group">
+                <?= zen_draw_label(HEADING_TITLE_STATE, 'select-state') ?>
+                <?= zen_draw_pull_down_menu('state', $states, $selected_state, 'class="form-control" id="select-state"') ?>
             </div>
             <div class="form-group">
                 <label for="invert"><?= zen_draw_checkbox_field('invert', 'yes', !empty($invert), '', 'id="invert"') . '&nbsp;' . TEXT_BUTTON_REPORT_INVERT ?></label>
@@ -484,7 +520,7 @@ if (count($sales) === 0) {
 ?>
             <tr class="dataTableHeadingRow fw-bold">
                 <td class="dataTableContent text-center"><?= ($is_monthly_report === true) ? TABLE_FOOTER_YEAR : $totals['monthname'] ?></td>
-                <td class="dataTableContent text-center"><?= $totals['year'] ?></td>
+                <td class="dataTableContent text-center"><?= ($totals['year'] ?? '') ?></td>
                 <td class="dataTableContent text-right"><?= $sms->formatValue($totals['gross_sales']) ?></td>
                 <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_total']) ?></td>
                 <td class="dataTableContent text-right"><?= $sms->formatValue($totals['products_untaxed']) ?></td>

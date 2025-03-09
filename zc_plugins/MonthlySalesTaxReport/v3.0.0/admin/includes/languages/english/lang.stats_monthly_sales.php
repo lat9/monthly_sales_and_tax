@@ -1,26 +1,9 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
- * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * Version 3.0.0
+ * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
-****************************************************************************
-    Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
-
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, version 2 of the License.
-
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-****************************************************************************/
-/*
- $Id: stats_monthly_sales.php, v2.0.4, 2022-05-19 (lat9)  $
 
   By SkipWater <skip@ccssinc.net> 11.24.2011
   With modifications by lat9: Copyright (c) 2013-2022 Vinos de Frutas Tropicales
@@ -34,57 +17,58 @@
 
   DESCRIPTION: Monthly Sales Report
 */
-
-//  Enables (on) or disables (off) the ability of the plugin to create a debug trace file (myDEBUG-sms.log) in the /logs directory.
 $define = [
-  'STATS_MONTHLY_SALES_DEBUG' => 'off',
+    'STATS_MONTHLY_SALES_DEBUG' => 'off', //  Enables (on) or disables (off) the ability of the plugin to create a debug trace file (myDEBUG-sms.log) in the /logs directory.
 
-  'SMS_VERSION' => 'v3.0.0',
+    'SMS_VERSION' => 'v3.0.0',
 
-  'HEADING_TITLE' => 'Monthly Sales/Tax Summary',
-  'HEADING_SUBTITLE' => 'Viewing Sales for %s',
-  'HEADING_SUBTITLE_STATUS' => ', with orders-status of %s',    //-%s is filled in with the name of the orders-status selected
-  'HEADING_TITLE_STATUS' => 'Status',
-  'TEXT_ALL_ORDERS' => 'All orders',
-  'TEXT_NOTHING_FOUND' => 'No income for this date/status selection',
-  'TEXT_BUTTON_REPORT_INVERT' => 'Invert',
-  'TEXT_BUTTON_REPORT_PRINT' => 'Print',
-  'TEXT_BUTTON_REPORT_SAVE' => 'Save CSV',
-  'TEXT_BUTTON_REPORT_BACK_DESC' => 'Return to summary by months',
-  'TEXT_BUTTON_REPORT_INVERT_DESC' => 'Invert rows top to bottom',
-  'TEXT_BUTTON_REPORT_PRINT_DESC' => 'Show report in printer friendly window',
-  'TEXT_BUTTON_REPORT_HELP_DESC' => 'About this report and how to use its features',
-  'TEXT_BUTTON_REPORT_GET_DETAIL' => 'Click to report daily summary for this month',
+    'HEADING_TITLE' => 'Monthly Sales/Tax Summary',
+    'HEADING_SUBTITLE' => 'Viewing Sales for %s',
+    'HEADING_SUBTITLE_STATUS' => ', with orders-status of %s',    //-%s is filled in with the name of the orders-status selected
+    'HEADING_SUBTITLE_STATE' => ' and this state: %s',
+    'HEADING_TITLE_STATUS' => 'Status: ',
+    'TEXT_ALL_ORDERS' => 'All orders',
+    'HEADING_TITLE_STATE' => 'State: ',
+    'TEXT_ALL_STATES' => 'All states',
+    'TEXT_NOTHING_FOUND' => 'No income for this date/status selection',
+    'TEXT_BUTTON_REPORT_INVERT' => 'Invert',
+    'TEXT_BUTTON_REPORT_PRINT' => 'Print',
+    'TEXT_BUTTON_REPORT_SAVE' => 'Save CSV',
+    'TEXT_BUTTON_REPORT_BACK_DESC' => 'Return to summary by months',
+    'TEXT_BUTTON_REPORT_INVERT_DESC' => 'Invert rows top to bottom',
+    'TEXT_BUTTON_REPORT_PRINT_DESC' => 'Show report in printer friendly window',
+    'TEXT_BUTTON_REPORT_HELP_DESC' => 'About this report and how to use its features',
+    'TEXT_BUTTON_REPORT_GET_DETAIL' => 'Click to report daily summary for this month',
 
-  'TABLE_HEADING_YEAR' => 'Year',
-  'TABLE_HEADING_MONTH' => 'Month',
-  'TABLE_HEADING_DAY' => 'Day',
-  'TABLE_HEADING_INCOME' => 'Gross Income',
-  'TABLE_HEADING_SALES' => 'Product Sales',
-  'TABLE_HEADING_NONTAXED' => 'Untaxed Sales',
-  'TABLE_HEADING_TAXED' => 'Taxed Sales',
-  'TABLE_HEADING_TAX_COLL' => 'Taxes Collected',
-  'TABLE_HEADING_SHIPHNDL' => 'Shipping &amp; Handling',
-  'TABLE_HEADING_LOWORDER' => 'Low Order Fees',
-  'TABLE_HEADING_VOUCHER' => 'Gift Vouchers',
-  'TABLE_HEADING_COUPON' => 'Coupons',
-  'TABLE_HEADING_OTHER' => 'Other',
-  'TABLE_FOOTER_YEAR' => 'YEAR',
+    'TABLE_HEADING_YEAR' => 'Year',
+    'TABLE_HEADING_MONTH' => 'Month',
+    'TABLE_HEADING_DAY' => 'Day',
+    'TABLE_HEADING_INCOME' => 'Gross Income',
+    'TABLE_HEADING_SALES' => 'Product Sales',
+    'TABLE_HEADING_NONTAXED' => 'Untaxed Sales',
+    'TABLE_HEADING_TAXED' => 'Taxed Sales',
+    'TABLE_HEADING_TAX_COLL' => 'Taxes Collected',
+    'TABLE_HEADING_SHIPHNDL' => 'Shipping &amp; Handling',
+    'TABLE_HEADING_LOWORDER' => 'Low Order Fees',
+    'TABLE_HEADING_VOUCHER' => 'Gift Vouchers',
+    'TABLE_HEADING_COUPON' => 'Coupons',
+    'TABLE_HEADING_OTHER' => 'Other',
+    'TABLE_FOOTER_YEAR' => 'YEAR',
 
-  // -----
-  // Language constants used by the report's AJAX handler (/includes/classes/ajax/zcAjaxMonthlySales.php).
-  //
-  'SMS_AJAX_ORDER_ID' => 'Order #',
-  'SMS_AJAX_DATE_PURCHASED' => 'Date Purchased',
-  'SMS_AJAX_TAX_DESCRIPTION' => 'Tax Description',
-  'SMS_AJAX_TAX' => 'Tax',
-  'SMS_AJAX_TAX_TOTAL' => 'Total:',
+    // -----
+    // Language constants used by the report's AJAX handler (/includes/classes/ajax/zcAjaxMonthlySales.php).
+    //
+    'SMS_AJAX_ORDER_ID' => 'Order #',
+    'SMS_AJAX_DATE_PURCHASED' => 'Date Purchased',
+    'SMS_AJAX_TAX_DESCRIPTION' => 'Tax Description',
+    'SMS_AJAX_TAX' => 'Tax',
+    'SMS_AJAX_TAX_TOTAL' => 'Total:',
 
-  'SMS_AJAX_TITLE_MONTHLY' => 'Viewing Orders for %1$s, %2$u',      //-Uses monthname (%1$s), year (%2$u)
-  'SMS_AJAX_TITLE_DAILY' => 'Viewing Orders for %1$u %2$s, %3$u',   //-Uses day (%1$u), monthname (%2$s) and year (%3%u)
+    'SMS_AJAX_TITLE_MONTHLY' => 'Viewing Orders for %1$s, %2$u',      //-Uses monthname (%1$s), year (%2$u)
+    'SMS_AJAX_TITLE_DAILY' => 'Viewing Orders for %1$u %2$s, %3$u',   //-Uses day (%1$u), monthname (%2$s) and year (%3%u)
 
-  'HELP_CLOSE' => 'Close',
-  'HELP_CONTENT_HEADER' => 'Using the Monthly Sales Report',
+    'HELP_CLOSE' => 'Close',
+    'HELP_CONTENT_HEADER' => 'Using the Monthly Sales Report',
 ];
 
 $table_heading_income = $define['TABLE_HEADING_INCOME'];
@@ -99,17 +83,17 @@ $table_heading_coupon = $define['TABLE_HEADING_COUPON'];
 $table_heading_other = $define['TABLE_HEADING_OTHER'];
 $sms_version = $define['SMS_VERSION'];
 
-  /**
-   * -----
-   * I know, naughty HTML contained in language definitions, but there's no equivalent of a
-   * define-page in the admin :-( - lat9
-   * 
-   * Be careful about editing this out. If you want to use a define, create a variable and 
-   * assign the constant there. THEN use the new variable where you want to put the constant.
-   * Otherwise... uhh... look up how PHP Heredocs work. (keep the first line as is and keep 
-   * the EOF; at the end on its own separate line.
-   * - retched
-   */
+/**
+ * -----
+ * I know, naughty HTML contained in language definitions, but there's no equivalent of a
+ * define-page in the admin :-( - lat9
+ *
+ * Be careful about editing this out. If you want to use a define, create a variable and 
+ * assign the constant there. THEN use the new variable where you want to put the constant.
+ * Otherwise... uhh... look up how PHP Heredocs work. (keep the first line as is and keep 
+ * the EOF; at the end on its own separate line.
+ * - retched
+ */
 $define['HELP_CONTENT_HTML'] =<<<EOF
 
 <h2>Reporting Store Activity by Month</h2>

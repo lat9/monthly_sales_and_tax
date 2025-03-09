@@ -1,12 +1,10 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
+ * Version 3.0.0
  * @copyright Portions Copyright 2004-2024 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
-    Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
-
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, version 2 of the License.
@@ -20,9 +18,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************
 
-$Id: stats_monthly_sales.php, v2.0.1 2022-01-09  $
-
-  Copyright 2013-2021 Vinos de Frutas Tropicales (lat9)
+  Copyright 2013-2025 Vinos de Frutas Tropicales (lat9)
   Copyright 2003-2005 Zen Cart Development Team
   Portions Copyright 2004 osCommerce
   http://www.zen-cart.com/license/2_0.txt GNU Public License V2.0
@@ -90,19 +86,6 @@ A popup help display window on how to use.
 
 */
 require 'includes/application_top.php';
-
-// -----
-// If running on a PHP version prior to 7.3.0, the array_key_first function isn't available.
-// Register its use in this case.
-//
-if (!function_exists('array_key_first')) {
-    function array_key_first(array $arr) {
-        foreach($arr as $key => $unused) {
-            return $key;
-        }
-        return NULL;
-    }
-}
 
 // -----
 // Set the boolean flag indicating whether to 'invert' the order of the displayed totals.

@@ -25,24 +25,22 @@
 //
 class MonthlySalesAndTax extends base
 {
-    public
-        $sales,         //-An array of sales' information
-        $status;        //-The orders-status value used to create the above array (0 if all statuses)
+    public array $sales;    //-An array of sales' information
+    public int $status;     //-The orders-status value used to create the above array (0 if all statuses)
 
-    protected
-        $debug,
-        $debug_logfile,
-        $using_loworder,
-        $using_gv,
-        $using_coupon,
-        $base_classes,
-        $decimal_places,
-        $selectedYear,
-        $selectedMonth,
-        $reportModeMonthly,
-        $sortDir,
-        $additional_totals,
-        $baseClassesList;
+    protected bool $debug;
+    protected string $debug_logfile;
+    protected bool $using_loworder;
+    protected bool $using_gv;
+    protected bool $using_coupon;
+    protected array $base_classes;
+    protected int $decimal_places;
+    protected int $selectedYear;
+    protected int $selectedMonth;
+    protected bool $reportModeMonthly;
+    protected string $sortDir;
+    protected bool $additional_totals;
+    protected string $baseClassesList;
 
     // -----
     // Class constructor, providing the settings to be used to create the report:
@@ -113,12 +111,12 @@ class MonthlySalesAndTax extends base
         // created and generate the 'base' sales structure for the to-be-returned report's
         // information array.
         //
-        $this->status = (string)$status;
+        $this->status = (int)$status;
 
-        $this->selectedYear = (string)$selected_year;
-        $this->selectedMonth = (string)$selected_month;
+        $this->selectedYear = (int)$selected_year;
+        $this->selectedMonth = (int)$selected_month;
 
-        $this->reportModeMonthly = ($this->selectedYear === '0' && $this->selectedMonth === '0');
+        $this->reportModeMonthly = ($this->selectedYear === 0 && $this->selectedMonth === 0);
 
         $this->sortDir = ($sort_dir === 'DESC') ? 'DESC' : 'ASC';
 
@@ -131,23 +129,23 @@ class MonthlySalesAndTax extends base
     // -----
     // A collection of public methods (used by the main report) to return some of the report's processing flags.
     //
-    public function usingLowOrder()
+    public function usingLowOrder(): bool
     {
         return $this->using_loworder;
     }
-    public function usingGiftVouchers()
+    public function usingGiftVouchers(): bool
     {
         return $this->using_gv;
     }
-    public function usingCoupons()
+    public function usingCoupons(): bool
     {
         return $this->using_coupon;
     }
-    public function usingAdditionalTotals()
+    public function usingAdditionalTotals(): bool
     {
         return $this->additional_totals;
     }
-    public function isMonthlyReport()
+    public function isMonthlyReport(): bool
     {
         return $this->reportModeMonthly;
     }
@@ -156,9 +154,9 @@ class MonthlySalesAndTax extends base
         return $this->decimal_places;
     }
 
-    public function formatValue($value)
+    public function formatValue($value): string
     {
-        return number_format($value, $this->decimal_places);
+        return number_format((float)$value, $this->decimal_places);
     }
 
     // -----
@@ -166,7 +164,7 @@ class MonthlySalesAndTax extends base
     // range 1 (January) to 12 (December).  Constants are defined in the admin's main
     // language file.
     //
-    public function getMonthName($month)
+    public function getMonthName($month): string
     {
         switch ($month) {
             case 1:
@@ -216,7 +214,7 @@ class MonthlySalesAndTax extends base
     // The public method that creates the array of information used for various outputs by the
     // main report.
     //
-    public function createReport()
+    public function createReport(): array
     {
         global $db;
 
@@ -238,16 +236,17 @@ class MonthlySalesAndTax extends base
         return $this->sales;
     }
 
-    protected function getProductSales()
+    protected function getProductSales(): array
     {
         global $db;
 
-        $sales_query_raw = "SELECT " . $this->getQueryTimeframeFields();
-        $sales_query_raw .= ", SUM(CASE WHEN op.products_tax = 0 THEN ROUND(op.final_price * op.products_quantity, " . $this->decimal_places . ") ELSE 0 END) AS products_untaxed";
-        $sales_query_raw .= ", SUM(CASE WHEN op.products_tax != 0 THEN ROUND(op.final_price * op.products_quantity, " . $this->decimal_places . ") ELSE 0 END) AS products_taxed";
-        $sales_query_raw .= " FROM " . TABLE_ORDERS . " o";
-        $sales_query_raw .= " INNER JOIN " . TABLE_ORDERS_PRODUCTS . " op ON op.orders_id = o.orders_id";
-        $sales_query_raw .= $this->getQueryCommonConditions();
+        $sales_query_raw =
+            "SELECT " . $this->getQueryTimeframeFields() . ",
+                    SUM(CASE WHEN op.products_tax = 0 THEN ROUND(op.final_price * op.products_quantity, " . $this->decimal_places . ") ELSE 0 END) AS products_untaxed,
+                    SUM(CASE WHEN op.products_tax != 0 THEN ROUND(op.final_price * op.products_quantity, " . $this->decimal_places . ") ELSE 0 END) AS products_taxed
+               FROM " . TABLE_ORDERS . " o
+                    INNER JOIN " . TABLE_ORDERS_PRODUCTS . " op ON op.orders_id = o.orders_id " .
+                $this->getQueryCommonConditions();
         $product_sales = $db->Execute($sales_query_raw);
 
         $sales = [];
@@ -266,12 +265,13 @@ class MonthlySalesAndTax extends base
             if ($field_name === '') {
                 continue;
             }
-            $sales_query_raw = "SELECT " . $this->getQueryTimeframeFields();
-            $sales_query_raw .= ', ' . $this->getTotalSum($class, $field_name);
-            $sales_query_raw .= " FROM " . TABLE_ORDERS . " o";
-            $sales_query_raw .= " INNER JOIN " . TABLE_ORDERS_TOTAL . " ot ON ot.orders_id = o.orders_id";
-            $sales_query_raw .= " WHERE ot.class = '$class'";
-            $sales_query_raw .= $this->getQueryCommonConditions('AND');
+            $sales_query_raw =
+                "SELECT " . $this->getQueryTimeframeFields() . ", " .
+                        $this->getTotalSum($class, $field_name) . "
+                   FROM " . TABLE_ORDERS . " o
+                        INNER JOIN " . TABLE_ORDERS_TOTAL . " ot ON ot.orders_id = o.orders_id
+                  WHERE ot.class = '$class' " . 
+                  $this->getQueryCommonConditions('AND');
             $sales = $db->Execute($sales_query_raw);
             foreach ($sales as $timeframe) {
                 $key = $this->getTimeframeKey($timeframe);
@@ -279,11 +279,12 @@ class MonthlySalesAndTax extends base
             }
         }
         if ($this->additional_totals === true) {
-            $sales_query_raw = "SELECT " . $this->getQueryTimeframeFields();
-            $sales_query_raw .= ', SUM(CASE WHEN ot.class NOT IN (' . $this->baseClassesList . ') THEN ROUND(ot.value, ' . $this->decimal_places . ') ELSE 0 END) AS `other`';
-            $sales_query_raw .= " FROM " . TABLE_ORDERS . " o";
-            $sales_query_raw .= " INNER JOIN " . TABLE_ORDERS_TOTAL . " ot ON ot.orders_id = o.orders_id";
-            $sales_query_raw .= $this->getQueryCommonConditions();
+            $sales_query_raw =
+                "SELECT " . $this->getQueryTimeframeFields() . ",
+                        SUM(CASE WHEN ot.class NOT IN (" . $this->baseClassesList . ") THEN ROUND(ot.value, " . $this->decimal_places . ") ELSE 0 END) AS `other`
+                   FROM " . TABLE_ORDERS . " o
+                        INNER JOIN " . TABLE_ORDERS_TOTAL . " ot ON ot.orders_id = o.orders_id " .
+                   $this->getQueryCommonConditions();
             $sales = $db->Execute($sales_query_raw);
             foreach ($sales as $timeframe) {
                 $key = $this->getTimeframeKey($timeframe);
@@ -291,7 +292,7 @@ class MonthlySalesAndTax extends base
             }
         }
     }
-    protected function getTimeframeKey($timeframe)
+    protected function getTimeframeKey($timeframe): string
     {
         $key = $timeframe['year'] . '-' . $timeframe['month'];
         if ($this->reportModeMonthly === false) {
@@ -299,11 +300,11 @@ class MonthlySalesAndTax extends base
         }
         return $key;
     }
-    protected function getTotalSum($ot_class, $field_name)
+    protected function getTotalSum($ot_class, $field_name): string
     {
         return "SUM(CASE WHEN ot.class = '$ot_class' THEN ROUND(ot.value, " . $this->decimal_places . ") ELSE 0 END) AS $field_name";
     }
-    protected function getQueryTimeframeFields()
+    protected function getQueryTimeframeFields(): string
     {
         $query_fields = "DATE_FORMAT(o.date_purchased, '%Y') AS `year`, DATE_FORMAT(o.date_purchased, '%m') AS `month`";
         if ($this->reportModeMonthly === false) {
@@ -311,10 +312,10 @@ class MonthlySalesAndTax extends base
         }
         return $query_fields;
     }
-    protected function getQueryCommonConditions($connector = 'WHERE')
+    protected function getQueryCommonConditions($connector = 'WHERE'): string
     {
         $conditions = '';
-        if ($this->status !== '0') {
+        if ($this->status !== 0) {
             $conditions = ' ' . $connector . ' o.orders_status = ' . $this->status;
             $connector = 'AND';
         }
@@ -338,7 +339,7 @@ class MonthlySalesAndTax extends base
     // -----
     // A protected function to conditionally output a debug message.
     //
-    protected function debug($message)
+    protected function debug(string $message): void
     {
         if ($this->debug) {
             error_log(date('Y-m-d H:i:s: ') . $message . "\n", 3, $this->debug_logfile);

@@ -1,11 +1,11 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 2.1.0
- * @copyright Portions Copyright 2004-2024 Zen Cart Team
+ * Version 3.0.0
+ * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
-    Copyright (C) 2024  Vinos de Frutas Tropicales (lat9)
+    Copyright (C) 2024-2025  Vinos de Frutas Tropicales (lat9)
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -20,5 +20,4 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 ****************************************************************************/
 
-define('FILENAME_STATS_MONTHLY_SALES', 'stats_monthly_sales');
-define('BOX_STATS_SALES_TOTALS', 'Monthly Sales/Tax Summary');
+zen_define_default('FILENAME_STATS_MONTHLY_SALES', 'stats_monthly_sales');

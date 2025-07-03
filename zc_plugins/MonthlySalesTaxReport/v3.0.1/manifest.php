@@ -1,11 +1,11 @@
 <?php
 /**
  * Monthly Sales and Tax Summary mod for Zen Cart
- * Version 3.0.0
+ * Version 3.0.1
  * @copyright Portions Copyright 2004-2025 Zen Cart Team
  * @author Vinos de Frutas Tropicales (lat9)
 ****************************************************************************
-    Copyright (C) 2024  Paul Williams
+    Copyright (C) 2024, 2025  Paul Williams
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
 ****************************************************************************/
 
 return [
-    'pluginVersion' => 'v3.0.0',
+    'pluginVersion' => 'v3.0.1',
     'pluginName' => 'Monthly Sales and Tax Summary',
     'pluginDescription' => 'This report displays a summary of monthly or daily totals:<ul><li>gross income (order totals)</li><li>subtotals of all orders in the selected period</li><li>nontaxed sales subtotals</li><li>taxed sales subtotals</li><li>tax collected</li><li>shipping/handling charges</li><li>low order fees (if present)</li><li>gift vouchers (or other addl order total component, if present)</li></ul><br>The data comes from the orders and orders_total tables.',
     'pluginAuthor' => 'Vinos de Frutas Tropicales (lat9, retched)',

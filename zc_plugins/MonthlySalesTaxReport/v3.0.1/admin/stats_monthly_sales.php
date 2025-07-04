@@ -199,13 +199,14 @@ if (isset($_GET['csv']) && $_GET['csv'] === 'yes' && count($sales) !== 0) {
         // -----
         // Output header line, containing keys in the current sales' data.
         //
-        fputcsv($fh, array_keys($sales[array_key_first($sales)]));
+        fputcsv($fh, array_keys($sales[array_key_first($sales)]), ",", '"', "\\");
+
 
         // -----
         // Output each sale as a line in the .csv.
         //
         foreach ($sales as $sale) {
-            fputcsv($fh, $sale);
+            fputcsv($fh, $sale, ",", '"', "\\");
         }
 
         fclose($fh);
